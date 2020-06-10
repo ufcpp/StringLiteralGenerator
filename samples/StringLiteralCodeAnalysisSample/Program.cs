@@ -12,7 +12,9 @@ class Program
         var source = @"using System;
 using StringLiteral;
 
-class Program
+namespace Sample
+{
+partial class Program
 {
     [StringLiteral.Utf8Attribute(""aαあ😊"")]
     public static partial System.ReadOnlySpan<byte> M1();
@@ -39,6 +41,7 @@ class Program
     internal protected static partial ReadOnlySpan<byte> M14();
 
     static void Main() { }
+}
 }";
 
         var compilation = Compile(source);
@@ -51,9 +54,11 @@ class Program
 
     private static Compilation Compile(string source)
     {
+        var opt = new CSharpParseOptions(languageVersion: LanguageVersion.Preview, kind: SourceCodeKind.Regular, documentationMode: DocumentationMode.Parse);
+
         var dotnetCoreDirectory = System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory();
         var compilation = CSharpCompilation.Create("test",
-            syntaxTrees: new[] { SyntaxFactory.ParseSyntaxTree(source) },
+            syntaxTrees: new[] { SyntaxFactory.ParseSyntaxTree(source, opt) },
             references: new[]
             {
                     AssemblyMetadata.CreateFromFile(typeof(object).Assembly.Location).GetReference(),
@@ -61,11 +66,9 @@ class Program
                     MetadataReference.CreateFromFile(Path.Combine(dotnetCoreDirectory, "System.Runtime.dll")),
             });
 
-        // ここから
-        var opt = new CSharpParseOptions(kind: SourceCodeKind.Regular, documentationMode: DocumentationMode.Parse);
+        // apply the source generator
         var driver = new CSharpGeneratorDriver(opt, ImmutableArray.Create<ISourceGenerator>(new Utf8StringLiteralGenerator()), ImmutableArray<AdditionalText>.Empty);
         driver.RunFullGeneration(compilation, out var resultCompilation, out _);
-        // ここまで
 
         return resultCompilation;
     }
