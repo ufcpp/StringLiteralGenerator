@@ -2,7 +2,7 @@
 
 A C# [Source Generator](https://github.com/dotnet/roslyn/blob/master/docs/features/source-generators.md) for optimizing UTF-8 binaries.
 
-Original source (mamual written):
+Original source (manually written):
 
 ```cs
 namespace Sample
