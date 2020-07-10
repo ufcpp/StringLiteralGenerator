@@ -20,7 +20,7 @@ partial class Program
     public static partial System.ReadOnlySpan<byte> M1();
 
     [StringLiteral.Utf8Attribute(""aαあ😊"")]
-    protectedstatic partial ReadOnlySpan<byte> M2();
+    protected static partial ReadOnlySpan<byte> M2();
 
     [Utf8Attribute(""aαあ😊"")]
     private static partial System.ReadOnlySpan<byte> M3();
