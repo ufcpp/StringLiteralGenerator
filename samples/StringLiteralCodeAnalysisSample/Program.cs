@@ -67,7 +67,7 @@ partial class Program
             });
 
         // apply the source generator
-        var driver = new CSharpGeneratorDriver(opt, ImmutableArray.Create<ISourceGenerator>(new Utf8StringLiteralGenerator()), ImmutableArray<AdditionalText>.Empty);
+        var driver = new CSharpGeneratorDriver(opt, ImmutableArray.Create<ISourceGenerator>(new Utf8StringLiteralGenerator()), null, ImmutableArray<AdditionalText>.Empty);
         driver.RunFullGeneration(compilation, out var resultCompilation, out _);
 
         return resultCompilation;
