@@ -53,22 +53,32 @@ namespace StringLiteral
                 var methodName = m.Identifier.ValueText;
                 var classSource = generate(containingType, methodName, value, accessibility);
 
-                context.AddSource($"{containingType.Name}_{methodName}_utf8literal.cs", SourceText.From(classSource, Encoding.UTF8));
+                var filename = $"{containingType.Name}_{methodName}_utf8literal.cs";
+                if (!string.IsNullOrEmpty(containingType.ContainingNamespace.Name))
+                {
+                    filename = containingType.ContainingNamespace.Name.Replace('.', '/') + filename;
+                }
+                context.AddSource(filename, SourceText.From(classSource, Encoding.UTF8));
             }
 
             //todo: group by typeSymbol?
             string generate(INamedTypeSymbol containingType, string methodName, string value, Accessibility accessibility)
             {
                 buffer.Clear();
-                buffer.Append(@"namespace ");
-                buffer.Append(containingType.ContainingNamespace.ToDisplayString());
-                buffer.Append(@"
+
+                if (!string.IsNullOrEmpty(containingType.ContainingNamespace.Name))
+                {
+                    buffer.Append(@"namespace ");
+                    buffer.Append(containingType.ContainingNamespace.ToDisplayString());
+                    buffer.Append(@"
 {
-    partial class ");
+");
+                }
+                buffer.Append(@"partial class ");
                 buffer.Append(containingType.Name);
                 buffer.Append(@"
-    {
-        ");
+{
+    ");
                 buffer.Append(AccessibilityText(accessibility));
                 buffer.Append(" static partial System.ReadOnlySpan<byte> ");
                 buffer.Append(methodName);
@@ -81,9 +91,14 @@ namespace StringLiteral
                 }
 
                 buffer.Append(@"};
-    }
 }
 ");
+                if (!string.IsNullOrEmpty(containingType.ContainingNamespace.Name))
+                {
+                    buffer.Append(@"}
+");
+                }
+
                 return buffer.ToString();
             }
 
