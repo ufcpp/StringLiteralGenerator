@@ -39,8 +39,6 @@ partial class Program
 
     [Utf8(""aαあ😊"")]
     internal protected static partial ReadOnlySpan<byte> M14();
-
-    static void Main() { }
 }
 }";
 
@@ -55,6 +53,7 @@ partial class Program
     private static Compilation Compile(string source)
     {
         var opt = new CSharpParseOptions(languageVersion: LanguageVersion.Preview, kind: SourceCodeKind.Regular, documentationMode: DocumentationMode.Parse);
+        var copt = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
         var dotnetCoreDirectory = System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory();
         var compilation = CSharpCompilation.Create("test",
@@ -64,7 +63,8 @@ partial class Program
                     AssemblyMetadata.CreateFromFile(typeof(object).Assembly.Location).GetReference(),
                     MetadataReference.CreateFromFile(Path.Combine(dotnetCoreDirectory, "netstandard.dll")),
                     MetadataReference.CreateFromFile(Path.Combine(dotnetCoreDirectory, "System.Runtime.dll")),
-            });
+            },
+            options: copt);
 
         // apply the source generator
         var driver = new CSharpGeneratorDriver(opt, ImmutableArray.Create<ISourceGenerator>(new Utf8StringLiteralGenerator()), null, ImmutableArray<AdditionalText>.Empty);
