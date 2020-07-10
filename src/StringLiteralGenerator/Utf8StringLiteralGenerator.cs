@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace StringLiteralGenerator
@@ -40,29 +41,38 @@ namespace StringLiteral
 
             var buffer = new StringBuilder();
 
-            foreach (var m in receiver.CandidateMethods)
+            var group = enumerate().GroupBy(x => x.containingType, x => (x.methodName, x.value, x.accessibility));
+
+            foreach (var g in group)
             {
-                if (!isStaticPartial(m)) continue;
+                var containingType = g.Key;
+                var generatedSource = generate(containingType, g);
 
-                SemanticModel model = compilation.GetSemanticModel(m.SyntaxTree);
-
-                if (m.ParameterList.Parameters.Count != 0) continue;
-                if (!returnsString(model, m)) continue;
-                if (!(getUtf8Attribute(model, m) is ({ } value, var containingType, var accessibility))) continue;
-
-                var methodName = m.Identifier.ValueText;
-                var classSource = generate(containingType, methodName, value, accessibility);
-
-                var filename = $"{containingType.Name}_{methodName}_utf8literal.cs";
+                var filename = $"{containingType.Name}_utf8literal.cs";
                 if (!string.IsNullOrEmpty(containingType.ContainingNamespace.Name))
                 {
                     filename = containingType.ContainingNamespace.Name.Replace('.', '/') + filename;
                 }
-                context.AddSource(filename, SourceText.From(classSource, Encoding.UTF8));
+                context.AddSource(filename, SourceText.From(generatedSource, Encoding.UTF8));
             }
 
-            //todo: group by typeSymbol?
-            string generate(INamedTypeSymbol containingType, string methodName, string value, Accessibility accessibility)
+            IEnumerable<(INamedTypeSymbol containingType, string methodName, string value, Accessibility accessibility)> enumerate()
+            {
+                foreach (var m in receiver.CandidateMethods)
+                {
+                    if (!isStaticPartial(m)) continue;
+
+                    SemanticModel model = compilation.GetSemanticModel(m.SyntaxTree);
+
+                    if (m.ParameterList.Parameters.Count != 0) continue;
+                    if (!returnsString(model, m)) continue;
+                    if (!(getUtf8Attribute(model, m) is ({ } value, var containingType, var accessibility))) continue;
+
+                    yield return (containingType, m.Identifier.ValueText, value, accessibility);
+                }
+            }
+
+            string generate(INamedTypeSymbol containingType, IEnumerable<(string methodName, string value, Accessibility accessibility)> methods)
             {
                 buffer.Clear();
 
@@ -78,20 +88,26 @@ namespace StringLiteral
                 buffer.Append(containingType.Name);
                 buffer.Append(@"
 {
-    ");
-                buffer.Append(AccessibilityText(accessibility));
-                buffer.Append(" static partial System.ReadOnlySpan<byte> ");
-                buffer.Append(methodName);
-                buffer.Append("() => new byte[] {");
-
-                foreach (var b in Encoding.UTF8.GetBytes(value))
+");
+                foreach (var (methodName, value, accessibility) in methods)
                 {
-                    buffer.Append(b);
-                    buffer.Append(", ");
+                    buffer.Append("    ");
+                    buffer.Append(AccessibilityText(accessibility));
+                    buffer.Append(" static partial System.ReadOnlySpan<byte> ");
+                    buffer.Append(methodName);
+                    buffer.Append("() => new byte[] {");
+
+                    foreach (var b in Encoding.UTF8.GetBytes(value))
+                    {
+                        buffer.Append(b);
+                        buffer.Append(", ");
+                    }
+
+                    buffer.Append(@"};
+");
                 }
 
-                buffer.Append(@"};
-}
+                buffer.Append(@"}
 ");
                 if (!string.IsNullOrEmpty(containingType.ContainingNamespace.Name))
                 {
