@@ -47,13 +47,26 @@ namespace StringLiteral
             {
                 var containingType = g.Key;
                 var generatedSource = generate(containingType, g);
-
-                var filename = $"{containingType.Name}_utf8literal.cs";
-                if (!string.IsNullOrEmpty(containingType.ContainingNamespace.Name))
-                {
-                    filename = containingType.ContainingNamespace.Name.Replace('.', '/') + filename;
-                }
+                var filename = getFilename(containingType);
                 context.AddSource(filename, SourceText.From(generatedSource, Encoding.UTF8));
+            }
+
+            string getFilename(INamedTypeSymbol type)
+            {
+                buffer.Clear();
+
+                foreach (var part in type.ContainingNamespace.ToDisplayParts())
+                {
+                    if (part.Symbol is { Name: var name } && !string.IsNullOrEmpty(name))
+                    {
+                        buffer.Append(name);
+                        buffer.Append('_');
+                    }
+                }
+                buffer.Append(type.Name);
+                buffer.Append("_utf8literal.cs");
+
+                return buffer.ToString();
             }
 
             IEnumerable<(INamedTypeSymbol containingType, string methodName, string value, Accessibility accessibility)> enumerate()
