@@ -1,0 +1,71 @@
+name: build and deploy
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  release:
+    types:
+      - published
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_VERSION: 5.0.100-rc.1.20452.10
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build -c Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+
+  pack:
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Pack
+      run: |
+        arrTag=(${GITHUB_REF//\// })
+        VERSION="${arrTag[2]}"
+        echo Version: $VERSION
+        VERSION="${VERSION//v}"
+        dotnet pack -c Release -p:PackageVersion=$VERSION src/StringLiteralGenerator
+    - name: Upload Artifact
+    - uses: actions/upload-artifact@v2
+      with:
+        name: nupkg
+        path: |
+         ./**/bin/Release/*.nupkg
+
+  push:
+    needs: pack
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Download Artifact
+      uses: actions/download-artifact@v1
+      with:
+        name: nupkg
+    - name: Push to nuget.org
+      run: dotnet nuget push ./nupkg/**/*.* --skip-duplicate --source https://api.nuget.org/v3/index.json --api-key $NugetApiKey
