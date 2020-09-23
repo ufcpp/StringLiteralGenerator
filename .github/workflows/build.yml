@@ -68,4 +68,4 @@ jobs:
       with:
         name: nupkg
     - name: Push to nuget.org
-      run: dotnet nuget push ./nupkg/**/*.* --skip-duplicate --source https://api.nuget.org/v3/index.json --api-key $NugetApiKey
+      run: dotnet nuget push ./nupkg/**/*.* --skip-duplicate --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NugetApiKey }}
