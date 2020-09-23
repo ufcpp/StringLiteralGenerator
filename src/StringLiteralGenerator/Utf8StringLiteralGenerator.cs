@@ -23,7 +23,7 @@ namespace StringLiteral
     }
 }
 ";
-        public void Execute(SourceGeneratorContext context)
+        public void Execute(GeneratorExecutionContext context)
         {
             context.AddSource("Utf8Attribute", SourceText.From(attributeText, Encoding.UTF8));
 
@@ -179,7 +179,7 @@ namespace StringLiteral
             _ => throw new InvalidOperationException(),
         };
 
-        public void Initialize(InitializationContext context)
+        public void Initialize(GeneratorInitializationContext context)
         {
             context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
         }

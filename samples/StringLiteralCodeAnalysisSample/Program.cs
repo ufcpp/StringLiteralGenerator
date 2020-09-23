@@ -94,8 +94,8 @@ namespace Sample
             options: copt);
 
         // apply the source generator
-        var driver = new CSharpGeneratorDriver(opt, ImmutableArray.Create<ISourceGenerator>(new Utf8StringLiteralGenerator()), null, ImmutableArray<AdditionalText>.Empty);
-        driver.RunFullGeneration(compilation, out var resultCompilation, out _);
+        var driver = CSharpGeneratorDriver.Create(new[] { new Utf8StringLiteralGenerator() }, parseOptions: opt);
+        driver.RunGeneratorsAndUpdateCompilation(compilation, out var resultCompilation, out _);
 
         return resultCompilation;
     }
