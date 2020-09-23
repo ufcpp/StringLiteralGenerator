@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{11C3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringLiteralSample", "samples\StringLiteralSample\StringLiteralSample.csproj", "{BDD784F2-E65F-4774-8D2B-8536EFB94A32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringLiteralCodeAnalysisSample", "samples\StringLiteralCodeAnalysisSample\StringLiteralCodeAnalysisSample.csproj", "{003A89BC-3FE1-4D6A-833C-A27363C01732}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringLiteralCodeAnalysisSample", "samples\StringLiteralCodeAnalysisSample\StringLiteralCodeAnalysisSample.csproj", "{003A89BC-3FE1-4D6A-833C-A27363C01732}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,9 +24,7 @@ Global
 		{6FD4C22B-E18F-452C-8F23-9B5F15F5E315}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FD4C22B-E18F-452C-8F23-9B5F15F5E315}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BDD784F2-E65F-4774-8D2B-8536EFB94A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDD784F2-E65F-4774-8D2B-8536EFB94A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDD784F2-E65F-4774-8D2B-8536EFB94A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDD784F2-E65F-4774-8D2B-8536EFB94A32}.Release|Any CPU.Build.0 = Release|Any CPU
 		{003A89BC-3FE1-4D6A-833C-A27363C01732}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{003A89BC-3FE1-4D6A-833C-A27363C01732}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{003A89BC-3FE1-4D6A-833C-A27363C01732}.Release|Any CPU.ActiveCfg = Release|Any CPU
