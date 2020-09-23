@@ -27,7 +27,7 @@ namespace StringLiteral
         {
             context.AddSource("Utf8Attribute", SourceText.From(attributeText, Encoding.UTF8));
 
-            if (!(context.SyntaxReceiver is SyntaxReceiver receiver)) return;
+            if (context.SyntaxReceiver is not SyntaxReceiver receiver) return;
 
             CSharpParseOptions options = (CSharpParseOptions)((CSharpCompilation)context.Compilation).SyntaxTrees[0].Options;
 
