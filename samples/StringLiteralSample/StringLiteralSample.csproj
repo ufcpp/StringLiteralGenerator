@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Analyzer Include="$(SolutionDir)src\StringLiteralGenerator\bin\Debug\netstandard2.0\StringLiteralGenerator.dll" />
+    <ProjectReference Include="..\..\src\StringLiteralGenerator\StringLiteralGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>
