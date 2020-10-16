@@ -34,7 +34,7 @@ namespace Sample
 
 [![NuGet](https://img.shields.io/nuget/v/StringLiteralGenerator?style=flat-square)](https://www.nuget.org/packages/StringLiteralGenerator)
 
-You may also need to add a reference to `Microsoft.Net.Compilers.Toolset`.
+For versions earlier than .NET 5 SDK RC2 you may also need to add a reference to `Microsoft.Net.Compilers.Toolset`.
 So the `csproj` may look like this:
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
