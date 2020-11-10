@@ -11,7 +11,7 @@ on:
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  DOTNET_VERSION: 5.0.100-rc.1.20452.10
+  DOTNET_VERSION: 5.0.x
 
 jobs:
   build:
