@@ -9,7 +9,7 @@
     <PackageId>StringLiteralGenerator</PackageId>
     <Authors>Nobuyuki Iwanaga</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/ufcpp/TryGithubActions</RepositoryUrl>
+    <RepositoryUrl>https://github.com/ufcpp/StringLiteralGenerator</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>A C# Source Generator for optimizing UTF-8 binaries.</Description>
