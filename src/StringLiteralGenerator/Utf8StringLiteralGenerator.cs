@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System.Collections.Generic;
@@ -19,7 +18,7 @@ public partial class Utf8StringLiteralGenerator : ISourceGenerator
 
         var buffer = new StringBuilder();
 
-        var group = enumerate().GroupBy(x => x.type, x => x.method);
+        var group = enumerate().GroupBy(x => x.Type, x => x.Method);
 
         foreach (var g in group)
         {
@@ -29,19 +28,14 @@ public partial class Utf8StringLiteralGenerator : ISourceGenerator
             context.AddSource(filename, SourceText.From(generatedSource, Encoding.UTF8));
         }
 
-        IEnumerable<(TypeInfo type, MethodInfo method)> enumerate()
+        IEnumerable<Utf8LiteralMethod> enumerate()
         {
             foreach (var m in receiver.CandidateMethods)
             {
                 var model = compilation.GetSemanticModel(m.SyntaxTree);
 
-                if (m.ParameterList.Parameters.Count != 0) continue;
-                if (model.GetDeclaredSymbol(m) is not { } methodSymbol) continue;
-                if (!methodSymbol.IsPartialDefinition || !methodSymbol.IsStatic) continue;
-                if (!ReturnsString(methodSymbol)) continue;
-                if (GetUtf8Attribute(methodSymbol) is not { } value) continue;
-
-                yield return (new(methodSymbol.ContainingType), new(methodSymbol, value));
+                if (GetSemanticTargetForGeneration(model, m) is { } t)
+                    yield return t;
             }
         }
     }
