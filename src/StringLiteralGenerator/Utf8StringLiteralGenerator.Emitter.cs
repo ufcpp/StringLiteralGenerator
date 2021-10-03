@@ -1,12 +1,29 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace StringLiteralGenerator;
 
 public partial class Utf8StringLiteralGenerator : ISourceGenerator
 {
+    private static void Emit(GeneratorExecutionContext context, IEnumerable<Utf8LiteralMethod> methods)
+    {
+        var buffer = new StringBuilder();
+
+        var group = methods.GroupBy(x => x.Type, x => x.Method);
+
+        foreach (var g in group)
+        {
+            var containingType = g.Key;
+            var generatedSource = Generate(containingType, g, buffer);
+            var filename = GetFilename(containingType, buffer);
+            context.AddSource(filename, SourceText.From(generatedSource, Encoding.UTF8));
+        }
+    }
+
     private static string GetFilename(TypeInfo type, StringBuilder buffer)
     {
         buffer.Clear();

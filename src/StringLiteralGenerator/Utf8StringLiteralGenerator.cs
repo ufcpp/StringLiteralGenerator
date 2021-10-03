@@ -1,9 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace StringLiteralGenerator;
 
@@ -16,17 +13,7 @@ public partial class Utf8StringLiteralGenerator : ISourceGenerator
 
         var compilation = context.Compilation;
 
-        var buffer = new StringBuilder();
-
-        var group = enumerate().GroupBy(x => x.Type, x => x.Method);
-
-        foreach (var g in group)
-        {
-            var containingType = g.Key;
-            var generatedSource = Generate(containingType, g, buffer);
-            var filename = GetFilename(containingType, buffer);
-            context.AddSource(filename, SourceText.From(generatedSource, Encoding.UTF8));
-        }
+        Emit(context, enumerate());
 
         IEnumerable<Utf8LiteralMethod> enumerate()
         {
