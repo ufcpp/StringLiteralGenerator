@@ -4,6 +4,13 @@ namespace StringLiteralGenerator;
 
 public partial class Utf8StringLiteralGenerator
 {
+    private record Utf8LiteralMethod(TypeInfo Type, MethodInfo Method)
+    {
+        public Utf8LiteralMethod(IMethodSymbol m, string text)
+            : this(new TypeInfo(m.ContainingType), new MethodInfo(m, text))
+        { }
+    }
+
     private record struct TypeInfo(string? Namespace, string Name)
     {
         public TypeInfo(INamedTypeSymbol t)
@@ -24,3 +31,4 @@ public partial class Utf8StringLiteralGenerator
         { }
     }
 }
+

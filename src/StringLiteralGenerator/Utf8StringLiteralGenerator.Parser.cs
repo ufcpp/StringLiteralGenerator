@@ -1,22 +1,25 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace StringLiteralGenerator;
 
-public partial class Utf8StringLiteralGenerator : ISourceGenerator
+public partial class Utf8StringLiteralGenerator
 {
     private const string attributeName = "StringLiteral.Utf8Attribute";
 
-    private static bool IsStaticPartial(MemberDeclarationSyntax m)
+    private static bool IsSyntaxTargetForGeneration(SyntaxNode node) =>
+        node is MethodDeclarationSyntax { AttributeLists.Count: > 0 };
+
+    private static Utf8LiteralMethod? GetSemanticTargetForGeneration(SemanticModel semanticModel, MethodDeclarationSyntax m)
     {
-        bool isStatic = false;
-        bool isPartial = false;
-        foreach (var mod in m.Modifiers)
-        {
-            isStatic |= mod.Text == "static";
-            isPartial |= mod.Text == "partial";
-        }
-        return isStatic && isPartial;
+        if (m.ParameterList.Parameters.Count != 0) return null;
+        if (semanticModel.GetDeclaredSymbol(m) is not { } methodSymbol) return null;
+        if (!methodSymbol.IsPartialDefinition || !methodSymbol.IsStatic) return null;
+        if (!ReturnsString(methodSymbol)) return null;
+        if (GetUtf8Attribute(methodSymbol) is not { } value) return null;
+
+        return new(methodSymbol, value);
     }
 
     static bool ReturnsString(IMethodSymbol methodSymbol)
