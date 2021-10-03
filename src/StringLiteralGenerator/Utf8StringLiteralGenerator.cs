@@ -24,6 +24,8 @@ namespace StringLiteral
     }
 }
 ";
+    private const string attributeName = "StringLiteral.Utf8Attribute";
+
     public void Execute(GeneratorExecutionContext context)
     {
         context.AddSource("Utf8Attribute", SourceText.From(attributeText, Encoding.UTF8));
@@ -34,7 +36,6 @@ namespace StringLiteral
 
         Compilation compilation = context.Compilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText(SourceText.From(attributeText, Encoding.UTF8), options));
 
-        if (!(compilation.GetTypeByMetadataName("StringLiteral.Utf8Attribute") is { } attributeSymbol)) return;
         if (!(compilation.GetTypeByMetadataName("System.ReadOnlySpan`1") is { } spanSymbol)) return;
         if (!(compilation.GetTypeByMetadataName("System.Byte") is { } byteSymbol)) return;
 
@@ -161,7 +162,8 @@ namespace StringLiteral
 
             foreach (var a in s.GetAttributes())
             {
-                if (SymbolEqualityComparer.Default.Equals(a.AttributeClass, attributeSymbol))
+                var xx = a.AttributeClass.ToDisplayString();
+                if (a.AttributeClass.ToDisplayString() == attributeName)
                 {
                     var args = a.ConstructorArguments;
                     if (args.Length != 1) continue;
