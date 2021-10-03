@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "StringLiteralGenerator": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\..\\samples\\StringLiteralSample\\StringLiteralSample.csproj"
+    }
+  }
+}
