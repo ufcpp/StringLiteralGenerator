@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace StringLiteralGenerator;
 
-public partial class Utf8StringLiteralGenerator : ISourceGenerator
+public partial class Utf8StringLiteralGenerator
 {
     private const string attributeName = "StringLiteral.Utf8Attribute";
 

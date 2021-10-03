@@ -7,7 +7,7 @@ using System.Text;
 
 namespace StringLiteralGenerator;
 
-public partial class Utf8StringLiteralGenerator : ISourceGenerator
+public partial class Utf8StringLiteralGenerator
 {
     private static void Emit(GeneratorExecutionContext context, IEnumerable<Utf8LiteralMethod> methods)
     {
