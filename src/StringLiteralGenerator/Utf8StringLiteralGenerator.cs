@@ -18,6 +18,6 @@ public partial class Utf8StringLiteralGenerator : IIncrementalGenerator
             .Where(x => x is not null)
             .Collect();
 
-        context.RegisterSourceOutput(provider, Emit);
+        context.RegisterImplementationSourceOutput(provider, Emit);
     }
 }
