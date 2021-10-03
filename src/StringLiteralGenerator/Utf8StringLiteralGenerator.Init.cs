@@ -19,7 +19,7 @@ namespace StringLiteral
 }
 ";
 
-    private static void AddAttribute(GeneratorPostInitializationContext context)
+    private static void AddAttribute(IncrementalGeneratorPostInitializationContext context)
     {
         context.AddSource("Utf8Attribute", SourceText.From(attributeText, Encoding.UTF8));
     }

@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 
@@ -9,7 +10,7 @@ namespace StringLiteralGenerator;
 
 public partial class Utf8StringLiteralGenerator
 {
-    private static void Emit(GeneratorExecutionContext context, IEnumerable<Utf8LiteralMethod> methods)
+    private static void Emit(SourceProductionContext context, ImmutableArray<Utf8LiteralMethod> methods)
     {
         var buffer = new StringBuilder();
 
