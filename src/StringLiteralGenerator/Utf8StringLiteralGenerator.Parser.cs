@@ -7,17 +7,8 @@ public partial class Utf8StringLiteralGenerator : ISourceGenerator
 {
     private const string attributeName = "StringLiteral.Utf8Attribute";
 
-    private static bool IsStaticPartial(MemberDeclarationSyntax m)
-    {
-        bool isStatic = false;
-        bool isPartial = false;
-        foreach (var mod in m.Modifiers)
-        {
-            isStatic |= mod.Text == "static";
-            isPartial |= mod.Text == "partial";
-        }
-        return isStatic && isPartial;
-    }
+    private static bool IsSyntaxTargetForGeneration(SyntaxNode node) =>
+        node is MethodDeclarationSyntax { AttributeLists.Count: > 0 };
 
     static bool ReturnsString(IMethodSymbol methodSymbol)
     {

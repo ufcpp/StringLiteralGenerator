@@ -33,15 +33,13 @@ public partial class Utf8StringLiteralGenerator : ISourceGenerator
         {
             foreach (var m in receiver.CandidateMethods)
             {
-                if (!IsStaticPartial(m)) continue;
-
                 var model = compilation.GetSemanticModel(m.SyntaxTree);
 
                 if (m.ParameterList.Parameters.Count != 0) continue;
                 if (model.GetDeclaredSymbol(m) is not { } methodSymbol) continue;
+                if (!methodSymbol.IsPartialDefinition || !methodSymbol.IsStatic) continue;
                 if (!ReturnsString(methodSymbol)) continue;
                 if (GetUtf8Attribute(methodSymbol) is not { } value) continue;
-
 
                 yield return (new(methodSymbol.ContainingType), new(methodSymbol, value));
             }
@@ -61,10 +59,9 @@ public partial class Utf8StringLiteralGenerator : ISourceGenerator
         public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
         {
             // any field with at least one attribute is a candidate for property generation
-            if (syntaxNode is MethodDeclarationSyntax methodDeclarationSyntax
-                && methodDeclarationSyntax.AttributeLists.Count > 0)
+            if (IsSyntaxTargetForGeneration(syntaxNode))
             {
-                CandidateMethods.Add(methodDeclarationSyntax);
+                CandidateMethods.Add((MethodDeclarationSyntax)syntaxNode);
             }
         }
     }
