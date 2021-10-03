@@ -72,7 +72,7 @@ namespace StringLiteral
             {
                 if (!IsStaticPartial(m)) continue;
 
-                SemanticModel model = compilation.GetSemanticModel(m.SyntaxTree);
+                var model = compilation.GetSemanticModel(m.SyntaxTree);
 
                 if (m.ParameterList.Parameters.Count != 0) continue;
                 if (model.GetDeclaredSymbol(m) is not { } methodSymbol) continue;
