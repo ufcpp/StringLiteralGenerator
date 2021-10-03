@@ -5,6 +5,8 @@ namespace StringLiteralGenerator;
 
 public partial class Utf8StringLiteralGenerator : ISourceGenerator
 {
+    private const string attributeName = "StringLiteral.Utf8Attribute";
+
     private static bool IsStaticPartial(MemberDeclarationSyntax m)
     {
         bool isStatic = false;
