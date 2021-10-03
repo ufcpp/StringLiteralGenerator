@@ -36,11 +36,6 @@ namespace StringLiteral
 
         Compilation compilation = context.Compilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText(SourceText.From(attributeText, Encoding.UTF8), options));
 
-        if (!(compilation.GetTypeByMetadataName("System.ReadOnlySpan`1") is { } spanSymbol)) return;
-        if (!(compilation.GetTypeByMetadataName("System.Byte") is { } byteSymbol)) return;
-
-        var byteSpanSymbol = spanSymbol.Construct(byteSymbol);
-
         var buffer = new StringBuilder();
 
         var group = enumerate().GroupBy(x => x.containingType, x => (x.methodName, x.value, x.accessibility));
@@ -153,7 +148,7 @@ namespace StringLiteral
         bool returnsString(SemanticModel model, MethodDeclarationSyntax m)
         {
             return model.GetSymbolInfo(m.ReturnType).Symbol is INamedTypeSymbol s
-                && SymbolEqualityComparer.Default.Equals(s, byteSpanSymbol);
+                && s.ToDisplayString() == "System.ReadOnlySpan<byte>";
         }
 
         (string? value, INamedTypeSymbol containingType, Accessibility accessibility) getUtf8Attribute(SemanticModel model, MethodDeclarationSyntax m)
