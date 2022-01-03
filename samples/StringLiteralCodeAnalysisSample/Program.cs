@@ -78,7 +78,7 @@ namespace Sample
 
     private static Compilation Compile(string source)
     {
-        var opt = new CSharpParseOptions(languageVersion: LanguageVersion.Preview, kind: SourceCodeKind.Regular, documentationMode: DocumentationMode.Parse);
+        var opt = new CSharpParseOptions(languageVersion: LanguageVersion.CSharp10, kind: SourceCodeKind.Regular, documentationMode: DocumentationMode.Parse);
         var copt = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
         var dotnetCoreDirectory = System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory();
