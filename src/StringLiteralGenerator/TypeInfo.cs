@@ -1,6 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-
-namespace StringLiteralGenerator;
+﻿namespace StringLiteralGenerator;
 
 public partial class Utf8StringLiteralGenerator
 {

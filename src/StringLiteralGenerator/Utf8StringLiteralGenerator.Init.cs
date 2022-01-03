@@ -1,8 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
-using System.Text;
-
-namespace StringLiteralGenerator;
+﻿namespace StringLiteralGenerator;
 
 public partial class Utf8StringLiteralGenerator
 {
@@ -18,9 +14,4 @@ namespace StringLiteral
     }
 }
 ";
-
-    private static void AddAttribute(IncrementalGeneratorPostInitializationContext context)
-    {
-        context.AddSource("Utf8Attribute", SourceText.From(attributeText, Encoding.UTF8));
-    }
 }

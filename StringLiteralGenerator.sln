@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringLiteralSample", "samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringLiteralCodeAnalysisSample", "samples\StringLiteralCodeAnalysisSample\StringLiteralCodeAnalysisSample.csproj", "{003A89BC-3FE1-4D6A-833C-A27363C01732}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringLiteralGenerator.Roslyn3", "src\StringLiteralGenerator.Roslyn3\StringLiteralGenerator.Roslyn3.csproj", "{41777618-F1CE-4FFF-9BBE-D00281FB262C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{003A89BC-3FE1-4D6A-833C-A27363C01732}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{003A89BC-3FE1-4D6A-833C-A27363C01732}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{003A89BC-3FE1-4D6A-833C-A27363C01732}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41777618-F1CE-4FFF-9BBE-D00281FB262C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41777618-F1CE-4FFF-9BBE-D00281FB262C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41777618-F1CE-4FFF-9BBE-D00281FB262C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41777618-F1CE-4FFF-9BBE-D00281FB262C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +43,7 @@ Global
 		{6FD4C22B-E18F-452C-8F23-9B5F15F5E315} = {FFC2158D-94DD-4C93-8A33-84F0CE809100}
 		{BDD784F2-E65F-4774-8D2B-8536EFB94A32} = {11C3645F-EE4F-4D2A-8E69-1A287D631B51}
 		{003A89BC-3FE1-4D6A-833C-A27363C01732} = {11C3645F-EE4F-4D2A-8E69-1A287D631B51}
+		{41777618-F1CE-4FFF-9BBE-D00281FB262C} = {FFC2158D-94DD-4C93-8A33-84F0CE809100}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B11D44BB-40B7-42AD-B345-C93A42268AE1}

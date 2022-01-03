@@ -1,8 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-namespace StringLiteralGenerator;
+﻿namespace StringLiteralGenerator;
 
 public partial class Utf8StringLiteralGenerator
 {

@@ -1,0 +1,33 @@
+<Project>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>10</LangVersion>
+        <Nullable>enable</Nullable>
+        <IsRoslynComponent>true</IsRoslynComponent>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <Deterministic>true</Deterministic>
+        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+        <RootNamespace>StringLiteralGenerator</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="System"/>
+        <Using Include="System.Linq"/>
+        <Using Include="System.Text"/>
+        <Using Include="System.Collections.Generic"/>
+        <Using Include="System.Collections.Immutable"/>
+        <Using Include="System.Threading"/>
+        <Using Include="Microsoft.CodeAnalysis" />
+        <Using Include="Microsoft.CodeAnalysis.CSharp" />
+        <Using Include="Microsoft.CodeAnalysis.CSharp.Syntax" />
+        <Using Include="Microsoft.CodeAnalysis.Diagnostics" />
+        <Using Include="Microsoft.CodeAnalysis.Text" />
+    </ItemGroup>
+</Project>
