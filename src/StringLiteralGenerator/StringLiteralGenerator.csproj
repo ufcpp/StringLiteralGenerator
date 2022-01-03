@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <IsRoslynComponent>true</IsRoslynComponent>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-		<DevelopmentDependency>true</DevelopmentDependency>
+    <DevelopmentDependency>true</DevelopmentDependency>
 
     <PackageId>StringLiteralGenerator</PackageId>
     <Authors>Nobuyuki Iwanaga</Authors>
