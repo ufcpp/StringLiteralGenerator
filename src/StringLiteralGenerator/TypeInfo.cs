@@ -11,10 +11,10 @@ public partial class Utf8StringLiteralGenerator
         { }
     }
 
-    private record struct TypeInfo(string? Namespace, string Name)
+    private record struct TypeInfo(string? Namespace, string Name, bool IsValueType)
     {
         public TypeInfo(INamedTypeSymbol t)
-            : this(GetNamespace(t), t.Name)
+            : this(GetNamespace(t), t.Name, t.IsValueType)
         { }
 
         private static string? GetNamespace(INamedTypeSymbol t)
