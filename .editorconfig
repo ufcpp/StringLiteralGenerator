@@ -10,6 +10,9 @@ trim_trailing_whitespace = true
 [*.{cs,vb}]
 csharp_style_namespace_declarations=file_scoped:suggestion
 
+[*.Emitter.cs]
+end_of_line = lf
+
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj,props,targets}]
 indent_size = 2
 indent_style = space
