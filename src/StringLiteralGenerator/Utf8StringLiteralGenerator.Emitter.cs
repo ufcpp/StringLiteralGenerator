@@ -7,7 +7,7 @@ namespace StringLiteralGenerator;
 
 public partial class Utf8StringLiteralGenerator
 {
-    private static void Emit(SourceProductionContext context, ImmutableArray<Utf8LiteralMethod> methods)
+    private static void Emit(SourceProductionContext context, ImmutableArray<BinaryLiteralMethod> methods)
     {
         var buffer = new StringBuilder();
 
@@ -67,7 +67,7 @@ public partial class Utf8StringLiteralGenerator
         buffer.Append(@"
 {
 ");
-        foreach (var (methodName, accessibility, value) in methods)
+        foreach (var (methodName, accessibility, value, format) in methods)
         {
             buffer.Append("    ");
             buffer.Append(AccessibilityText(accessibility));
@@ -75,7 +75,14 @@ public partial class Utf8StringLiteralGenerator
             buffer.Append(methodName);
             buffer.Append("() => new byte[] {");
 
-            foreach (var b in Encoding.UTF8.GetBytes(value))
+            var bytes = format switch
+            {
+                LiteralFormat.Utf8 => Encoding.UTF8.GetBytes(value),
+                LiteralFormat.Hex => ToHex(value),
+                _ => throw new NotSupportedException(),
+            };
+
+            foreach (var b in bytes)
             {
                 buffer.Append(b);
                 buffer.Append(", ");
@@ -94,6 +101,26 @@ public partial class Utf8StringLiteralGenerator
         }
 
         return buffer.ToString();
+    }
+
+    //todo: Report an analyzer error for mul-formed string.
+    private static byte[] ToHex(string text)
+    {
+        static byte hex(char c) => c switch
+        {
+            >= '0' and <= '9' => (byte)(c - '0'),
+            >= 'a' and <= 'f' => (byte)(c - 'a' + 10),
+            >= 'A' and <= 'F' => (byte)(c - 'A' + 10),
+            _ => 0, // should throw?
+        };
+
+        var bytes = new byte[text.Length / 2];
+        for (int i = 0; i < text.Length; i += 2)
+        {
+            bytes[i / 2] = (byte)((hex(text[i]) << 4) | hex(text[i + 1]));
+        }
+
+        return bytes;
     }
 
     private static string AccessibilityText(Accessibility accessibility) => accessibility switch

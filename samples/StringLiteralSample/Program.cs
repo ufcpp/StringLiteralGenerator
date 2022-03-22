@@ -11,6 +11,9 @@ namespace A
 
         [StringLiteral.Utf8("aαあ亜😊")]
         public static partial System.ReadOnlySpan<byte> M2();
+
+        [StringLiteral.Hex("DEADBEEF")]
+        public static partial System.ReadOnlySpan<byte> M3();
     }
 }
 

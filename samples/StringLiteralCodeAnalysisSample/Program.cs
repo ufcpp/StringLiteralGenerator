@@ -34,6 +34,9 @@ partial class Literals
 
     [Utf8(""aαあ😊"")]
     internal protected static partial ReadOnlySpan<byte> M14();
+
+    [StringLiteral.HexAttribute(""DEADBEEF"")]
+    public static partial System.ReadOnlySpan<byte> H1();
 }
 
 namespace Sample
