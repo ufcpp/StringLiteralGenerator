@@ -37,6 +37,9 @@ partial class Literals
 
     [StringLiteral.HexAttribute(""DEADBEEF"")]
     public static partial System.ReadOnlySpan<byte> H1();
+
+    [StringLiteral.Base64(""AQIDBAUGBwgJCm54goyWoMj/"")]
+    public static partial System.ReadOnlySpan<byte> B1();
 }
 
 namespace Sample

@@ -13,7 +13,13 @@ namespace A
         public static partial System.ReadOnlySpan<byte> M2();
 
         [StringLiteral.Hex("DEADBEEF")]
-        public static partial System.ReadOnlySpan<byte> M3();
+        public static partial System.ReadOnlySpan<byte> H1();
+
+        [Hex("0102030405060708090A6E78828C96A0C8FF")]
+        public static partial ReadOnlySpan<byte> H2();
+
+        [Base64("AQIDBAUGBwgJCm54goyWoMj/")]
+        public static partial ReadOnlySpan<byte> B1();
     }
 }
 

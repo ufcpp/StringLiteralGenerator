@@ -8,6 +8,7 @@ public partial class Utf8StringLiteralGenerator
 {
     private const string utf8AttributeName = "StringLiteral.Utf8Attribute";
     private const string hexAttributeName = "StringLiteral.HexAttribute";
+    private const string base64AttributeName = "StringLiteral.Base64Attribute";
 
     private static bool IsSyntaxTargetForGeneration(SyntaxNode node) =>
         node is MethodDeclarationSyntax { AttributeLists.Count: > 0 };
@@ -37,6 +38,7 @@ public partial class Utf8StringLiteralGenerator
             {
                 utf8AttributeName => LiteralFormat.Utf8,
                 hexAttributeName => LiteralFormat.Hex,
+                base64AttributeName => LiteralFormat.Base64,
                 _ => (LiteralFormat)0
             };
 

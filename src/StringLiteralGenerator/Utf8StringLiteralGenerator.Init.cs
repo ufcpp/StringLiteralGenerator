@@ -23,6 +23,13 @@ namespace StringLiteral
     {
         public HexAttribute(string s) { }
     }
+
+    [System.Diagnostics.Conditional(""COMPILE_TIME_ONLY"")]
+    [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
+    sealed class Base64Attribute : Attribute
+    {
+        public Base64Attribute(string s) { }
+    }
 }
 ";
 

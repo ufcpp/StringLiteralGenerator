@@ -15,6 +15,7 @@ public partial class Utf8StringLiteralGenerator
     {
         Utf8 = 1,
         Hex,
+        Base64,
     }
 
     private record struct TypeInfo(string? Namespace, string Name, bool IsValueType)

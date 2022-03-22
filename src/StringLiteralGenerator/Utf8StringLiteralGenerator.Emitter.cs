@@ -79,6 +79,7 @@ public partial class Utf8StringLiteralGenerator
             {
                 LiteralFormat.Utf8 => Encoding.UTF8.GetBytes(value),
                 LiteralFormat.Hex => ToHex(value),
+                LiteralFormat.Base64 => Convert.FromBase64String(value),
                 _ => throw new NotSupportedException(),
             };
 
