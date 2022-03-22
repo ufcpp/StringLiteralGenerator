@@ -91,7 +91,8 @@ namespace Sample
             options: copt);
 
         // apply the source generator
-        var driver = CSharpGeneratorDriver.Create(new Utf8StringLiteralGenerator());
+        var driver = CSharpGeneratorDriver.Create(new Utf8StringLiteralGenerator())
+            .WithUpdatedParseOptions(opt);
         driver.RunGeneratorsAndUpdateCompilation(compilation, out var resultCompilation, out _);
 
         return resultCompilation;
