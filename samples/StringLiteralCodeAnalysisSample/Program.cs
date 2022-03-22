@@ -1,8 +1,6 @@
 ﻿using StringLiteralGenerator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using System;
-using System.IO;
 
 class Program
 {
